@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-front
+  name: front-login
   labels:
-    app: node-front
+    app: front-login
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: node-front
+      app: front-login
   template:
     metadata:
       labels:
-        app: node-front
+        app: front-login
     spec:
       containers:
-      - name: node-front
+      - name: front-login
         image: <IMAGE>
         ports:
         - containerPort: 80
