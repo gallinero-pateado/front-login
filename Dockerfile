@@ -1,22 +1,29 @@
 # Etapa de construcción
 FROM node:16-alpine AS build
 
-# Directorio de trabajo en el contenedor
-WORKDIR /app
+# Directorio de trabajo
+WORKDIR /usr/src/app
+
+# Copia el package.json y package-lock.json
+COPY package*.json ./
 
 # Instala las dependencias
-COPY package.json package-lock.json ./
 RUN npm install
 
-# Copia el resto del código fuente y crea los archivos de producción
+# Copia el resto de los archivos
 COPY . .
+
+# Construye la aplicación
 RUN npm run build
 
 # Etapa de producción
 FROM nginx:alpine
 
-# Copia los archivos construidos desde la fase de build a la carpeta de Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copia los archivos de la etapa de build al directorio de Nginx
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+
+# Copia una configuración personalizada para Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expone el puerto 80
 EXPOSE 80
