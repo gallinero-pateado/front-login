@@ -80,7 +80,7 @@ const Login = () => {
 
         try {
             // 1. Login Request - matches backend LoginHandler endpoint
-            const loginResponse = await axios.post('http://localhost:8080/login', {
+            const loginResponse = await axios.post('http://localhost:8080/login/user', {
                 email: email.trim().toLowerCase(), // Match backend email normalization
                 password
             }, {

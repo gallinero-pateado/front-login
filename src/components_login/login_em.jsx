@@ -67,7 +67,7 @@ const LoginEm = () => {
         });
 
         try {
-            const loginResponse = await axios.post('http://localhost:8080/login', {
+            const loginResponse = await axios.post('http://localhost:8080/login/company', {
                 email: email.trim().toLowerCase(),
                 password
             }, {
