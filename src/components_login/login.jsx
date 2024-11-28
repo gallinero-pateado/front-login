@@ -107,12 +107,12 @@ const Login = () => {
             // Determine if it's an employee login
             const isEmployeeLogin = window.location.pathname.includes('login_em');
 
-            const apiurl = `${API_URL}/profile-status`
-
 
             if (isEmployeeLogin) {
                 navigate('/gpracticas');
             } else {
+                const apiurl = `${API_URL}/profile-status`
+
                 try {
                     // 2. Profile Status Check - matches GetProfileStatusHandler endpoint
                     const profileResponse = await axios.get(apiurl, {
