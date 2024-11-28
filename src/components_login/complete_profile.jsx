@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
+const API_URL = "https://api-ulink.tssw.info";
+
 const CompleteProfile = () => {
 
     ///LISTADO CON CARRERAS DE LA UTEM///
@@ -54,10 +56,11 @@ const CompleteProfile = () => {
     const location = useLocation();
 
     const COOKIE_CONFIG = {
-        expires: 7, // Token expires in 7 days
-        secure: process.env.NODE_ENV === 'production', // Only use HTTPS in production
+        expires: 7,
+        secure: true,
         sameSite: 'strict',
-        path: '/'
+        path: '/',
+        domain: '.tssw.info'
     };
 
     const getAuthToken = () => {
@@ -161,7 +164,9 @@ const CompleteProfile = () => {
                 const imageFormData = new FormData();
                 imageFormData.append('file', formData.fotoPerfil);
 
-                const uploadResponse = await axios.post('http://localhost:8080/upload-image', imageFormData, {
+                const apiurl = `${API_URL}/upload-image`
+
+                const uploadResponse = await axios.post(apiurl, imageFormData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -177,7 +182,9 @@ const CompleteProfile = () => {
                 foto_perfil: fotoPerfilUrl || ''
             };
 
-            const response = await axios.post('http://localhost:8080/complete-profile', profileFormData, {
+            const apiurl = `${API_URL}/complete-profile`
+
+            const response = await axios.post(apiurl, profileFormData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

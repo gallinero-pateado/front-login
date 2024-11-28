@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "https://api-ulink.tssw.info";
 
 
 const CompleteProfileEmpresa = () => {
@@ -100,9 +100,11 @@ const CompleteProfileEmpresa = () => {
                 Telefono_contacto: telefono,
                 Estado_verificacion: 1
             };
+            const apiurl = `${API_URL}/complete-profile/empresa`
 
             const response = await axios.post(
-                'http://localhost:8080/complete-profile/empresa',
+                apiurl,
+
                 profileFormData,
                 {
                     headers: {
