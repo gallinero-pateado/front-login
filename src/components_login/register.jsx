@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const API_URL = "https://api-ulink.tssw.info";
+
 const Register = () => {
     const [formData, setFormData] = useState({
         nombres: '',
@@ -77,8 +79,10 @@ const Register = () => {
             return;
         }
 
+        const apiurl = `${API_URL}/register/user`
+
         try {
-            const response = await axios.post('http://localhost:8080/register/user', {
+            const response = await axios.post(apiurl, {
                 email: formData.email,
                 password: formData.password,
                 nombres: formData.nombres,

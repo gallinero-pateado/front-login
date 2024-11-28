@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const API_URL = "https://api-ulink.tssw.info";
+
 const LoginEm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,10 +35,14 @@ const LoginEm = () => {
         return () => observer.disconnect();
     }, []);
 
+
+
     const checkProfileStatus = async (token, uid) => {
+        const apiurl = `${API_URL}/profile-status/empresa`
+
         try {
             console.log('Checking profile status with token:', token);
-            const response = await axios.get('http://localhost:8080/profile-status/empresa', {
+            const response = await axios.get(apiurl, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -60,8 +66,11 @@ const LoginEm = () => {
             // No logueamos la contraseña por seguridad
         });
 
+        const apiurl = `${API_URL}/login/company`
+
         try {
-            const loginResponse = await axios.post('http://localhost:8080/login/company', {
+
+            const loginResponse = await axios.post(apiurl, {
                 email: email.trim().toLowerCase(),
                 password
             }, {

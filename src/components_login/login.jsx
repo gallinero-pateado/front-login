@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const API_URL = "https://api-ulink.tssw.info";
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -79,9 +81,11 @@ const Login = () => {
         setError('');
         setLoading(true);
 
+        const apiurl = `${API_URL}/login/user`
+
         try {
             // 1. Login Request - matches backend LoginHandler endpoint
-            const loginResponse = await axios.post('http://localhost:8080/login/user', {
+            const loginResponse = await axios.post(apiurl, {
                 email: email.trim().toLowerCase(), // Match backend email normalization
                 password
             }, {
@@ -103,12 +107,15 @@ const Login = () => {
             // Determine if it's an employee login
             const isEmployeeLogin = window.location.pathname.includes('login_em');
 
+            const apiurl = `${API_URL}/profile-status`
+
+
             if (isEmployeeLogin) {
                 navigate('/gpracticas');
             } else {
                 try {
                     // 2. Profile Status Check - matches GetProfileStatusHandler endpoint
-                    const profileResponse = await axios.get('http://localhost:8080/profile-status', {
+                    const profileResponse = await axios.get(apiurl, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }

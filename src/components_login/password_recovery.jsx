@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const API_URL = "https://api-ulink.tssw.info";
+
 const PasswordResetForm = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -37,8 +39,10 @@ const PasswordResetForm = () => {
         setMessage('');
         setError('');
 
+        const apiurl = `${API_URL}/password-reset`
+
         try {
-            const response = await axios.post('http://localhost:8080/password-reset', { email });
+            const response = await axios.post(apiurl, { email });
             setMessage(response.data.message);
         } catch (err) {
             setError(err.response?.data?.error || 'Error al procesar la solicitud');
