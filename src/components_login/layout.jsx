@@ -7,6 +7,13 @@ import bodyImage from '../imagen/body.jpg';
 const Layout = () => {
     const [theme, setTheme] = useState('light');
 
+    const COOKIE_CONFIG = {
+        expires: 7, // Token expires in 7 days
+        secure: process.env.NODE_ENV === 'production', // Only use HTTPS in production
+        sameSite: 'strict',
+        path: '/'
+    };
+
     useEffect(() => {
         const savedTheme = Cookies.get('theme') || 'light';
         setTheme(savedTheme);

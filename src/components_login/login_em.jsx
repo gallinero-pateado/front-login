@@ -11,12 +11,6 @@ const LoginEm = () => {
     const [theme, setTheme] = useState('light');
     const navigate = useNavigate();
 
-    const cookieOptions = {
-        expires: 7,
-        secure: window.location.protocol === 'https:',
-        sameSite: 'Lax',
-        path: '/'
-    };
 
     useEffect(() => {
         const savedTheme = Cookies.get('theme') || 'light';

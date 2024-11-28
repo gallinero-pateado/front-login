@@ -15,7 +15,7 @@ const Login = () => {
         expires: 7, // Cookie expires in 7 days
         secure: window.location.protocol === 'https:', // Only send cookie over HTTPS
         sameSite: 'Lax', // Provides some CSRF protection while allowing normal navigation
-        path: '/' // Cookie available across the entire site
+        path: "https://practicas.tssw.info/" // Cookie available across the entire site
     };
 
     useEffect(() => {

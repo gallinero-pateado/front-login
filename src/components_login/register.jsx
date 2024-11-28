@@ -78,13 +78,14 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/register', {
+            const response = await axios.post('http://localhost:8080/register/user', {
                 email: formData.email,
                 password: formData.password,
                 nombres: formData.nombres,
                 apellidos: formData.apellidos,
             });
             setSuccess('Usuario registrado correctamente');
+            alert('Usuario registrado correctamente, verifica tu correo electronico ');
         } catch (error) {
             if (error.response) {
                 console.error(error.response);
