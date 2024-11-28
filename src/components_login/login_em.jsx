@@ -11,12 +11,6 @@ const LoginEm = () => {
     const [theme, setTheme] = useState('light');
     const navigate = useNavigate();
 
-    const cookieOptions = {
-        expires: 7,
-        secure: window.location.protocol === 'https:',
-        sameSite: 'Lax',
-        path: '/'
-    };
 
     useEffect(() => {
         const savedTheme = Cookies.get('theme') || 'light';
@@ -67,7 +61,7 @@ const LoginEm = () => {
         });
 
         try {
-            const loginResponse = await axios.post('http://localhost:8080/login', {
+            const loginResponse = await axios.post('http://localhost:8080/login/company', {
                 email: email.trim().toLowerCase(),
                 password
             }, {

@@ -57,6 +57,7 @@ const CompleteProfile = () => {
         expires: 7, // Token expires in 7 days
         secure: process.env.NODE_ENV === 'production', // Only use HTTPS in production
         sameSite: 'strict',
+        path: '/'
     };
 
     const getAuthToken = () => {

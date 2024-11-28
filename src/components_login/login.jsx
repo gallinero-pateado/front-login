@@ -13,9 +13,10 @@ const Login = () => {
 
     const cookieOptions = {
         expires: 7, // Cookie expires in 7 days
-        secure: window.location.protocol === 'https:', // Only send cookie over HTTPS
-        sameSite: 'Lax', // Provides some CSRF protection while allowing normal navigation
-        path: '/' // Cookie available across the entire site
+        domain: '.tssw.info',
+        secure: true, // Only send cookie over HTTPS
+        sameSite: 'Strict', // Provides some CSRF protection while allowing normal navigation
+        path: "/" // Cookie available across the entire site
     };
 
     useEffect(() => {
@@ -80,7 +81,7 @@ const Login = () => {
 
         try {
             // 1. Login Request - matches backend LoginHandler endpoint
-            const loginResponse = await axios.post('http://localhost:8080/login', {
+            const loginResponse = await axios.post('http://localhost:8080/login/user', {
                 email: email.trim().toLowerCase(), // Match backend email normalization
                 password
             }, {

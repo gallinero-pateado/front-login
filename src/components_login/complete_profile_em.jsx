@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 const CompleteProfileEmpresa = () => {
     const [formData, setFormData] = useState({
         sector: '',
@@ -17,12 +20,6 @@ const CompleteProfileEmpresa = () => {
     const [loading, setLoading] = useState(false);
     const [theme, setTheme] = useState('light');
     const navigate = useNavigate();
-
-    const COOKIE_CONFIG = {
-        expires: 7,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-    };
 
     useEffect(() => {
         const savedTheme = Cookies.get('theme') || 'light';
