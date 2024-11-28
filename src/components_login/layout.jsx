@@ -15,12 +15,12 @@ const Layout = () => {
     };
     
     useEffect(() => {
-        const token = Cookies.get("token") || undefined;
-        console.log('uso ussefect')
+        const token = Cookies.get("authToken") || undefined;
+        console.log('uso usefect')
         if (token) {
           // Redirigir si el token existe
           console.log(token)
-          window.location.href = "https://practicas.tssw.info";
+          window.location.href = "https://ulink.tssw.info/unificacion";
         }
         console.log('no hay token')
       }, []);
