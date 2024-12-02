@@ -10,45 +10,46 @@ const CompleteProfile = () => {
     ///LISTADO CON CARRERAS DE LA UTEM///
 
     const carrerasList = [
-        { id: 1, nombre: "Ingeniería en Informatica" },
-        { id: 2, nombre: "Ingeniería Civil Biomedica" },
-        { id: 3, nombre: "Bachillerato en Ciencias de la Ingenieria" },
-        { id: 4, nombre: "Ingenieria Civil en Computacion, mencion Informatica" },
-        { id: 5, nombre: "Ingenieria Civil Industrial" },
-        { id: 6, nombre: "Ingenieria Civil en Ciencias de Datos" },
-        { id: 7, nombre: "Ingenieria Civil en Electronica" },
-        { id: 8, nombre: "Ingenieria Civil en Mecanica" },
-        { id: 9, nombre: "Ingenieria en Geomensura" },
-        { id: 10, nombre: "Ingenieria Industrial" },
+        { id: 1, nombre: "Ingeniería en Informática" },
+        { id: 2, nombre: "Ingeniería Civil Biomédica" },
+        { id: 3, nombre: "Bachillerato en Ciencias de la Ingeniería" },
+        { id: 4, nombre: "Ingeniería Civil en Computación, mención Informática" },
+        { id: 5, nombre: "Ingeniería Civil Industrial" },
+        { id: 6, nombre: "Ingeniería Civil en Ciencias de Datos" },
+        { id: 7, nombre: "Ingeniería Civil en Electrónica" },
+        { id: 8, nombre: "Ingeniería Civil en Mecánica" },
+        { id: 9, nombre: "Ingeniería en Geomensura" },
+        { id: 10, nombre: "Ingeniería Industrial" },
         { id: 11, nombre: "Dibujante Proyectista" },
-        { id: 12, nombre: "Diseño en Comunicacion Visual" },
+        { id: 12, nombre: "Diseño en Comunicación Visual" },
         { id: 13, nombre: "Diseño Industrial" },
         { id: 14, nombre: "Trabajo Social" },
-        { id: 15, nombre: "Ingenieria Civil Quimica" },
-        { id: 16, nombre: "Ingeniería Civil Matematica" },
-        { id: 17, nombre: "Quimica y Farmacia" },
-        { id: 18, nombre: "Ingenieria en Biotecnologia" },
-        { id: 19, nombre: "Ingenieria en Alimentos" },
-        { id: 20, nombre: "Quimica Industrial" },
+        { id: 15, nombre: "Ingeniería Civil Química" },
+        { id: 16, nombre: "Ingeniería Civil Matemática" },
+        { id: 17, nombre: "Química y Farmacia" },
+        { id: 18, nombre: "Ingeniería en Biotecnología" },
+        { id: 19, nombre: "Ingeniería en Alimentos" },
+        { id: 20, nombre: "Química Industrial" },
         { id: 21, nombre: "Arquitectura" },
-        { id: 22, nombre: "Ingenieria Civil en Obras Civiles" },
-        { id: 23, nombre: "Ingenieria en Construccion" },
-        { id: 24, nombre: "Ingenieria Civil en Prevencion de Riesgos y Medioambiente" },
-        { id: 25, nombre: "Administracion Publica" },
-        { id: 26, nombre: "Bibliotecologia y Documentacion" },
-        { id: 27, nombre: "Contador Publico y Auditor" },
-        { id: 28, nombre: "Ingenieria Comercial" },
-        { id: 29, nombre: "Ingenieria en Comercio Internacional" },
-        { id: 30, nombre: "Ingenieria en Gestion Turistica" },
+        { id: 22, nombre: "Ingeniería Civil en Obras Civiles" },
+        { id: 23, nombre: "Ingeniería en Construcción" },
+        { id: 24, nombre: "Ingeniería Civil en Prevención de Riesgos y Medioambiente" },
+        { id: 25, nombre: "Administración Pública" },
+        { id: 26, nombre: "Bibliotecología y Documentación" },
+        { id: 27, nombre: "Contador Público y Auditor" },
+        { id: 28, nombre: "Ingeniería Comercial" },
+        { id: 29, nombre: "Ingeniería en Comercio Internacional" },
+        { id: 30, nombre: "Ingeniería en Gestión Turística" },
         { id: 31, nombre: "Derecho" },
-        { id: 32, nombre: "Psicologia" }
+        { id: 32, nombre: "Psicología" }
     ];
 
     const [formData, setFormData] = useState({
         fecha_nacimiento: '',
         ano_ingreso: '',
         id_carrera: '',
-        fotoPerfil: null
+        fotoPerfil: null,
+        cv: null
     });
     const [error, setError] = useState('');
     const [theme, setTheme] = useState('light');
@@ -145,7 +146,7 @@ const CompleteProfile = () => {
 
 
     const handleChange = (e) => {
-        if (e.target.name === 'fotoPerfil') {
+        if (e.target.name === 'fotoPerfil' || e.target.name === 'cv') {
             setFormData({ ...formData, [e.target.name]: e.target.files[0] });
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -159,6 +160,7 @@ const CompleteProfile = () => {
 
         try {
             let fotoPerfilUrl = '';
+            let cvUrl = '';
 
             if (formData.fotoPerfil) {
                 const imageFormData = new FormData();
@@ -175,11 +177,27 @@ const CompleteProfile = () => {
                 fotoPerfilUrl = uploadResponse.data.url;
             }
 
+            if (formData.cv) {
+                const pdfFormData = new FormData();
+                pdfFormData.append('file', formData.cv);
+
+                const pdfUploadUrl = `${API_URL}/upload-pdf`;
+
+                const uploadResponse = await axios.post(pdfUploadUrl, pdfFormData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                cvUrl = uploadResponse.data.url;
+            }
+
             const profileFormData = {
                 fecha_nacimiento: formData.fecha_nacimiento,
                 ano_ingreso: formData.ano_ingreso,
                 id_carrera: parseInt(formData.id_carrera),
-                foto_perfil: fotoPerfilUrl || ''
+                foto_perfil: fotoPerfilUrl || '',
+                cv: cvUrl || ''
             };
 
             const apiurl = `${API_URL}/complete-profile`
@@ -283,6 +301,20 @@ const CompleteProfile = () => {
                         name="fotoPerfil"
                         type="file"
                         accept="image/*"
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <label className={`block ${theme === 'dark' ? 'text-[#A3D9D3]' : 'text-[#0092BC]'} text-sm font-bold mb-2`}>
+                        Curriculum Vitae (PDF)
+                    </label>
+                    <input
+                        className={`shadow appearance-none border ${currentTheme.inputBorder} rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 ${currentTheme.inputBg} ${currentTheme.inputText} file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 ${theme === 'dark' ? 'file:bg-gray-600 file:text-white' : 'file:bg-[#0092BC] file:text-white'}`}
+                        id="cv"
+                        name="cv"
+                        type="file"
+                        accept=".pdf"
                         onChange={handleChange}
                     />
                 </div>
