@@ -5,6 +5,40 @@ import Cookies from 'js-cookie';
 
 const API_URL = "https://api-ulink.tssw.info";
 
+const DICCIONARIO_ERRORES = {
+    'network': {
+        'connection_error': 'Error de conexión. Verifique su conexión a internet',
+        'server_error': 'Problema interno del servidor. Intente más tarde',
+        'timeout': 'La solicitud tardó demasiado. Intente nuevamente',
+    },
+    'registro': {
+        'email_already_exists': 'Ya existe una cuenta con este correo electrónico',
+        'invalid_email_format': 'Formato de correo electrónico inválido',
+        'weak_password': 'La contraseña es demasiado débil. Use al menos 8 caracteres',
+        'password_mismatch': 'Las contraseñas no coinciden',
+        'missing_required_fields': 'Complete todos los campos obligatorios',
+    },
+    'default': 'Ha ocurrido un error inesperado. Intente nuevamente'
+};
+
+const obtenerMensajeError = (categoria, codigoError, errorBackend = null) => {
+    // Si hay un error específico del backend, devolverlo
+    if (errorBackend) return errorBackend;
+
+    if (DICCIONARIO_ERRORES[categoria] && DICCIONARIO_ERRORES[categoria][codigoError]) {
+        return DICCIONARIO_ERRORES[categoria][codigoError];
+    }
+
+    const categoriasPredeterminadas = ['network'];
+    for (let cat of categoriasPredeterminadas) {
+        if (DICCIONARIO_ERRORES[cat] && DICCIONARIO_ERRORES[cat][codigoError]) {
+            return DICCIONARIO_ERRORES[cat][codigoError];
+        }
+    }
+
+    return DICCIONARIO_ERRORES['default'];
+};
+
 const RegisterEm = () => {
     const [formData, setFormData] = useState({
         Nombre_empresa: '',
@@ -74,12 +108,11 @@ const RegisterEm = () => {
 
         // Verificar que las contraseñas coincidan
         if (formData.Password !== formData.ConfirmPassword) {
-            setError('Las contraseñas no coinciden');
+            setError(obtenerMensajeError('registro', 'password_mismatch'));
             return;
         }
 
         const apiurl = `${API_URL}/register_empresa`
-
 
         try {
             const response = await axios.post(apiurl, {
@@ -90,9 +123,20 @@ const RegisterEm = () => {
             setSuccess(response.data.message || 'Usuario registrado correctamente');
         } catch (error) {
             if (error.response) {
-                setError(error.response.data.error || 'Error al registrar el usuario');
+                // Map specific backend errors to user-friendly messages
+                let errorMessage = '';
+                if (error.response.data.error) {
+                    if (error.response.data.error.includes('correo ya está registrado')) {
+                        errorMessage = obtenerMensajeError('registro', 'email_already_exists');
+                    } else {
+                        errorMessage = obtenerMensajeError('default');
+                    }
+                } else {
+                    errorMessage = obtenerMensajeError('default');
+                }
+                setError(errorMessage);
             } else {
-                setError('Error de conexión');
+                setError(obtenerMensajeError('network', 'connection_error'));
             }
         }
     };

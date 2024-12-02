@@ -5,6 +5,30 @@ import Cookies from 'js-cookie';
 
 const API_URL = "https://api-ulink.tssw.info";
 
+const DICCIONARIO_ERRORES = {
+    'auth': {
+        'invalid_credentials': 'Correo electrónico o contraseña incorrectos',
+        'user_not_found': 'No se encontró una cuenta con este correo',
+        'unauthorized': 'Acceso no autorizado',
+    },
+    'network': {
+        'connection_error': 'Error de conexión. Verifique su conexión a internet',
+        'server_error': 'Problema interno del servidor. Intente más tarde',
+        'timeout': 'La solicitud tardó demasiado. Intente nuevamente',
+    },
+    'default': 'Ha ocurrido un error inesperado. Intente nuevamente'
+};
+
+const obtenerMensajeError = (categoria, codigoError, errorBackend = null) => {
+    if (errorBackend) return errorBackend;
+
+    if (DICCIONARIO_ERRORES[categoria] && DICCIONARIO_ERRORES[categoria][codigoError]) {
+        return DICCIONARIO_ERRORES[categoria][codigoError];
+    }
+
+    return DICCIONARIO_ERRORES['default'];
+};
+
 const LoginEm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -60,16 +84,9 @@ const LoginEm = () => {
         setError('');
         setLoading(true);
 
-        // Log the request data
-        console.log('Attempting login with:', {
-            email: email.trim().toLowerCase(),
-            // No logueamos la contraseña por seguridad
-        });
-
         const apiurl = `${API_URL}/login/company`
 
         try {
-
             const loginResponse = await axios.post(apiurl, {
                 email: email.trim().toLowerCase(),
                 password
@@ -79,12 +96,9 @@ const LoginEm = () => {
                 }
             });
 
-            console.log('Login response:', loginResponse.data);
-
             const { token, uid } = loginResponse.data;
 
             if (!token || !uid) {
-                console.error('Missing token or uid in response');
                 throw new Error('No se recibieron las credenciales necesarias');
             }
 
@@ -92,11 +106,8 @@ const LoginEm = () => {
             Cookies.set('authToken', token, cookieOptions);
             Cookies.set('uid', uid, cookieOptions);
 
-            console.log('Credentials stored in cookies');
-
             // Verificar el estado del perfil
             const isProfileComplete = await checkProfileStatus(token, uid);
-            console.log('Profile complete status:', isProfileComplete);
 
             // Redirigir según el estado del perfil
             if (!isProfileComplete) {
@@ -106,21 +117,21 @@ const LoginEm = () => {
             }
         } catch (error) {
             console.error('Full error object:', error);
-            console.error('Error response:', error.response);
 
-            let errorMessage = 'Error de conexión';
-
+            // Determinar el mensaje de error apropiado
+            let errorMessage;
             if (error.response) {
-                console.log('Error status:', error.response.status);
-                console.log('Error data:', error.response.data);
-
-                if (error.response.status === 401) {
-                    errorMessage = 'Credenciales incorrectas';
-                } else if (error.response.data && error.response.data.error) {
-                    errorMessage = error.response.data.error;
-                } else {
-                    errorMessage = 'Error al iniciar sesión';
+                switch (error.response.status) {
+                    case 401:
+                        errorMessage = obtenerMensajeError('auth', 'invalid_credentials', error.response.data.error);
+                        break;
+                    default:
+                        errorMessage = obtenerMensajeError('network', 'server_error', error.response.data.error);
                 }
+            } else if (error.request) {
+                errorMessage = obtenerMensajeError('network', 'connection_error');
+            } else {
+                errorMessage = obtenerMensajeError('default');
             }
 
             setError(errorMessage);

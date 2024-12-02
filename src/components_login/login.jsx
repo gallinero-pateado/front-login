@@ -5,6 +5,34 @@ import Cookies from 'js-cookie';
 
 const API_URL = "https://api-ulink.tssw.info";
 
+const DICCIONARIO_ERRORES = {
+    'auth': {
+        'invalid_credentials': 'Correo electrónico o contraseña incorrectos',
+        'user_not_found': 'No se encontró una cuenta con este correo',
+        'unauthorized': 'Acceso no autorizado',
+    },
+    'network': {
+        'connection_error': 'Error de conexión. Verifique su conexión a internet',
+        'server_error': 'Problema interno del servidor. Intente más tarde',
+        'timeout': 'La solicitud tardó demasiado. Intente nuevamente',
+    },
+
+    'perfil': {
+        'incomplete_profile': 'Debe completar todos los campos obligatorios del perfil',
+    },
+    'default': 'Ha ocurrido un error inesperado. Intente nuevamente'
+};
+
+const obtenerMensajeError = (categoria, codigoError, errorBackend = null) => {
+    if (errorBackend) return errorBackend;
+
+    if (DICCIONARIO_ERRORES[categoria] && DICCIONARIO_ERRORES[categoria][codigoError]) {
+        return DICCIONARIO_ERRORES[categoria][codigoError];
+    }
+
+    return DICCIONARIO_ERRORES['default'];
+};
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -128,13 +156,40 @@ const Login = () => {
 
                 } catch (profileError) {
                     console.error('Error al verificar el perfil:', profileError);
-                    setError('Error al verificar el estado del perfil');
+
+                    // Usar función de manejo de errores
+                    const errorMessage = obtenerMensajeError(
+                        'perfil',
+                        'incomplete_profile',
+                        profileError.response?.data?.error
+                    );
+
+                    setError(errorMessage);
                     navigate('/complete_profile');
                 }
             }
         } catch (error) {
             console.error('Error de autenticación:', error);
-            const errorMessage = error.response?.data?.error || 'Error de conexión';
+
+            // Determinar el mensaje de error apropiado
+            let errorMessage;
+            if (error.response) {
+                switch (error.response.status) {
+                    case 401:
+                        errorMessage = obtenerMensajeError('auth', 'invalid_credentials', error.response.data.error);
+                        break;
+                    case 404:
+                        errorMessage = obtenerMensajeError('auth', 'user_not_found', error.response.data.error);
+                        break;
+                    default:
+                        errorMessage = obtenerMensajeError('network', 'server_error', error.response.data.error);
+                }
+            } else if (error.request) {
+                errorMessage = obtenerMensajeError('network', 'connection_error');
+            } else {
+                errorMessage = obtenerMensajeError('default');
+            }
+
             setError(errorMessage);
 
             // Clean up cookies on error
