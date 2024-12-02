@@ -49,7 +49,6 @@ const CompleteProfile = () => {
         ano_ingreso: '',
         id_carrera: '',
         fotoPerfil: null,
-        cv: null
     });
     const [error, setError] = useState('');
     const [theme, setTheme] = useState('light');
@@ -146,7 +145,7 @@ const CompleteProfile = () => {
 
 
     const handleChange = (e) => {
-        if (e.target.name === 'fotoPerfil' || e.target.name === 'cv') {
+        if (e.target.name === 'fotoPerfil') {
             setFormData({ ...formData, [e.target.name]: e.target.files[0] });
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -160,7 +159,6 @@ const CompleteProfile = () => {
 
         try {
             let fotoPerfilUrl = '';
-            let cvUrl = '';
 
             if (formData.fotoPerfil) {
                 const imageFormData = new FormData();
@@ -177,27 +175,13 @@ const CompleteProfile = () => {
                 fotoPerfilUrl = uploadResponse.data.url;
             }
 
-            if (formData.cv) {
-                const pdfFormData = new FormData();
-                pdfFormData.append('file', formData.cv);
 
-                const pdfUploadUrl = `${API_URL}/upload-pdf`;
-
-                const uploadResponse = await axios.post(pdfUploadUrl, pdfFormData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-
-                cvUrl = uploadResponse.data.url;
-            }
 
             const profileFormData = {
                 fecha_nacimiento: formData.fecha_nacimiento,
                 ano_ingreso: formData.ano_ingreso,
                 id_carrera: parseInt(formData.id_carrera),
-                foto_perfil: fotoPerfilUrl || '',
-                cv: cvUrl || ''
+                foto_perfil: fotoPerfilUrl || ''
             };
 
             const apiurl = `${API_URL}/complete-profile`
@@ -301,20 +285,6 @@ const CompleteProfile = () => {
                         name="fotoPerfil"
                         type="file"
                         accept="image/*"
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="mb-6">
-                    <label className={`block ${theme === 'dark' ? 'text-[#A3D9D3]' : 'text-[#0092BC]'} text-sm font-bold mb-2`}>
-                        Curriculum Vitae (PDF)
-                    </label>
-                    <input
-                        className={`shadow appearance-none border ${currentTheme.inputBorder} rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 ${currentTheme.inputBg} ${currentTheme.inputText} file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 ${theme === 'dark' ? 'file:bg-gray-600 file:text-white' : 'file:bg-[#0092BC] file:text-white'}`}
-                        id="cv"
-                        name="cv"
-                        type="file"
-                        accept=".pdf"
                         onChange={handleChange}
                     />
                 </div>
