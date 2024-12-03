@@ -37,6 +37,14 @@ const LoginEm = () => {
     const [theme, setTheme] = useState('light');
     const navigate = useNavigate();
 
+    const cookieOptions = {
+        expires: 7, // Cookie expires in 7 days
+        domain: '.tssw.info',
+        secure: true, // Only send cookie over HTTPS
+        sameSite: 'Strict', // Provides some CSRF protection while allowing normal navigation
+        path: "/" // Cookie available across the entire site
+    };
+
 
     useEffect(() => {
         const savedTheme = Cookies.get('theme') || 'light';
