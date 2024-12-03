@@ -116,7 +116,7 @@ const CompleteProfileEmpresa = () => {
 
             console.log('Respuesta del servidor:', response.data);
 
-            if (response.data.message === "Perfil actualizado correctamente") {
+            if (response.status === 200) {
                 navigate('/gpracticas');
             } else {
                 setError('Error al actualizar el perfil: ' + response.data.message);
