@@ -70,7 +70,7 @@ const LoginEm = () => {
 
 
     const checkProfileStatus = async (token, uid) => {
-        const apiurl = `${API_URL}/profile-status/empresa`
+        const apiurl = `${API_URL}/profile-status-empresa`
 
         try {
             console.log('Checking profile status with token:', token);
