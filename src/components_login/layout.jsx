@@ -13,17 +13,17 @@ const Layout = () => {
         path: '/',
         domain: ".tssw.info"
     };
-    
+
     useEffect(() => {
         const token = Cookies.get("authToken") || undefined;
         console.log('uso usefect')
         if (token) {
-          // Redirigir si el token existe
-          console.log(token)
-          window.location.href = "https://ulink.tssw.info/unificacion";
+            // Redirigir si el token existe
+            console.log(token)
+            window.location.href = "https://ulink.tssw.info/unificacion";
         }
         console.log('no hay token')
-      }, []);
+    }, []);
 
 
     useEffect(() => {
