@@ -8,19 +8,22 @@ const Layout = () => {
     const [theme, setTheme] = useState('light');
     const COOKIE_CONFIG = {
         expires: 7, // Token expires in 7 days
-        secure: process.env.NODE_ENV === 'production', // Only use HTTPS in production
-        sameSite: 'strict',
-        path: '/'
+        secure: true, // Only use HTTPS in production
+        sameSite: 'Strict',
+        path: '/',
+        domain: ".tssw.info"
     };
-    
+
     useEffect(() => {
-        const token = Cookies.get("token") || undefined;
-    
+        const token = Cookies.get("authToken") || undefined;
+        console.log('uso usefect')
         if (token) {
-          // Redirigir si el token existe
-          window.location.href = "https://practicas.tssw.info";
+            // Redirigir si el token existe
+            console.log(token)
+            window.location.href = "https://ulink.tssw.info/unificacion";
         }
-      }, []);
+        console.log('no hay token')
+    }, []);
 
 
     useEffect(() => {
