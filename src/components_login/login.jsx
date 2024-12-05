@@ -131,6 +131,8 @@ const Login = () => {
         }
       );
 
+      console.log("loginResponse:", loginResponse); // Agregar log para depuración
+
       const { token, uid } = loginResponse.data;
 
       if (!token || !uid) {
