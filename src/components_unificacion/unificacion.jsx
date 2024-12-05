@@ -53,12 +53,12 @@ const MainPage = () => {
             para facilitar tu vida
           </p>
         </div>
-        <div className="flex ml-10">
+        <div className="flex ml-auto">
           <button
             onClick={handleLogout}
-            className="block py-4 px-2 rounded-md transition-colors duration-200 hover:bg-[#DAEDF2] hover:text-[#0092BC] active:bg-[#DAEDF2] active:text-[#0092BC] text-left"
+            className="block py-4 px-2 border-none font-extrabold rounded-md bg-[#A3D9D3] text-[#0092BC] hover:bg-[#8ec3c0] transition-colors duration-200 hover:text-white active:text-[#0092BC] text-left"
           >
-            Salir
+            Cerrar Sesión
           </button>
         </div>
       </header>
