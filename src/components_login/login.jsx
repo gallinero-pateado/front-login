@@ -183,39 +183,29 @@ const Login = () => {
       console.error("Error de autenticación:", error);
 
       // Determinar el mensaje de error apropiado
-      /*
       let errorMessage;
       if (error.response) {
         switch (error.response.status) {
           case 401:
-            errorMessage = obtenerMensajeError(
-              "auth",
-              "invalid_credentials",
-              error.response.data.error
-            );
+            errorMessage = "Correo electrónico o contraseña incorrectos";
             break;
           case 404:
-            errorMessage = obtenerMensajeError(
-              "auth",
-              "user_not_found",
-              error.response.data.error
-            );
+            errorMessage = "No se encontró una cuenta con este correo";
+            break;
+          case 502:
+            errorMessage = "Problema interno del servidor. Intente más tarde";
             break;
           default:
-            errorMessage = obtenerMensajeError(
-              "network",
-              "server_error",
-              error.response.data.error
-            );
+            errorMessage =
+              "Error de conexión. Verifique su conexión a internet";
         }
       } else if (error.request) {
-        errorMessage = obtenerMensajeError("network", "connection_error");
+        errorMessage = "Error de conexión. Verifique su conexión a internet";
       } else {
-        errorMessage = obtenerMensajeError("default");
+        errorMessage = "Ha ocurrido un error inesperado. Intente nuevamente";
       }
 
       setError(errorMessage);
-      */
 
       // Clean up cookies on error
       Cookies.remove("authToken", { path: "/" });
