@@ -127,6 +127,7 @@ const Login = () => {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
           withCredentials: true, // Incluir credenciales en la solicitud
         }
