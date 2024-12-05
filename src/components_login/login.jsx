@@ -114,7 +114,7 @@ const Login = () => {
     setError("");
     setLoading(true);
 
-    const apiurl = `${API_URL}/login/user`;
+    const apiurl = `${API_URL}/login-user`;
 
     try {
       // 1. Login Request - matches backend LoginHandler endpoint
