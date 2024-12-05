@@ -121,7 +121,7 @@ const LoginEm = () => {
             if (!isProfileComplete) {
                 navigate('/complete_profile_em');
             } else {
-                navigate('https://practicas.tssw.info/gpracticas');
+                window.location.href = "https://practicas.tssw.info/gpracticas";
             }
         } catch (error) {
             console.error('Full error object:', error);
