@@ -77,6 +77,8 @@ const CompleteProfileEmpresa = () => {
 
         try {
             const token = Cookies.get('authToken');
+            console.log('Token:', token);  // Añade esta línea para verificar el valor
+
             if (!token) {
                 setError('No se encontró el token de autenticación');
                 navigate('/login');
@@ -104,12 +106,11 @@ const CompleteProfileEmpresa = () => {
 
             const response = await axios.post(
                 apiurl,
-
                 profileFormData,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        //  'Authorization': `Bearer ${token}`
                     }
                 }
             );
@@ -117,7 +118,7 @@ const CompleteProfileEmpresa = () => {
             console.log('Respuesta del servidor:', response.data);
 
             if (response.status === 200) {
-                navigate('/gpracticas');
+                window.location.href = "https://practicas.tssw.info/gpracticas";
             } else {
                 setError('Error al actualizar el perfil: ' + response.data.message);
             }
