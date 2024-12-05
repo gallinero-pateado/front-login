@@ -20,6 +20,27 @@ const MainPage = () => {
     }
   }, []);
 
+  const handleLogout = () => {
+    const cookieOptions = {
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+      domain: ".tssw.info",
+    };
+
+    // Eliminar cookies relacionadas con la autenticación
+    Cookies.remove("authToken", cookieOptions);
+    Cookies.remove("uid", cookieOptions);
+
+    console.log("Cookies eliminadas:", {
+      authToken: Cookies.get("authToken"),
+      uid: Cookies.get("uid"),
+    });
+
+    // Redirigir al login
+    window.location.href = "https://ulink.tssw.info/";
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -32,7 +53,14 @@ const MainPage = () => {
             para facilitar tu vida
           </p>
         </div>
-        <div className="flex ml-10"></div>
+        <div className="flex ml-10">
+          <button
+            onClick={handleLogout}
+            className="block py-4 px-2 rounded-md transition-colors duration-200 hover:bg-[#DAEDF2] hover:text-[#0092BC] active:bg-[#DAEDF2] active:text-[#0092BC] text-left"
+          >
+            Salir
+          </button>
+        </div>
       </header>
 
       {/* Dynamic Image Slider */}
