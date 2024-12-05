@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 
 const API_URL = "https://api-ulink.tssw.info";
 
+/*
 const DICCIONARIO_ERRORES = {
   auth: {
     invalid_credentials: "Correo electrónico o contraseña incorrectos",
@@ -35,7 +36,7 @@ const obtenerMensajeError = (categoria, codigoError, errorBackend = null) => {
   }
 
   return DICCIONARIO_ERRORES["default"];
-};
+};*/
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -182,6 +183,7 @@ const Login = () => {
       console.error("Error de autenticación:", error);
 
       // Determinar el mensaje de error apropiado
+      /*
       let errorMessage;
       if (error.response) {
         switch (error.response.status) {
@@ -213,6 +215,7 @@ const Login = () => {
       }
 
       setError(errorMessage);
+      */
 
       // Clean up cookies on error
       Cookies.remove("authToken", { path: "/" });
