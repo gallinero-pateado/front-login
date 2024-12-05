@@ -121,7 +121,7 @@ const LoginEm = () => {
             if (!isProfileComplete) {
                 navigate('/complete_profile_em');
             } else {
-                navigate('/gpracticas');
+                navigate('https://practicas.tssw.info/gpracticas');
             }
         } catch (error) {
             console.error('Full error object:', error);
