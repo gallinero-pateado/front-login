@@ -33,6 +33,14 @@ const MainPage = () => {
             La plataforma ideal de nuestra universidad por y para estudiantes para facilitar tu vida
           </p>
         </div>
+        <div className="flex ml-auto">
+          <button
+            onClick={handleLogout}
+            className="block py-4 px-2 border-none font-extrabold rounded-md bg-[#A3D9D3] text-[#0092BC] hover:bg-[#8ec3c0] transition-colors duration-200 hover:text-white active:text-[#0092BC] text-left"
+          >
+            Cerrar Sesión
+          </button>
+        </div>
       </header>
 
 
