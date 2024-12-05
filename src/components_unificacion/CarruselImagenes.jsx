@@ -80,32 +80,32 @@ const DynamicImageSlider = () => {
 
       <div className="w-full gap-4 flex flex-col md:flex-row items-center justify-around">
         <a href="https://practicas.tssw.info" rel="noreferrer" className="w-full md:w-fit">
-          <div className='px-4 w-full md:w-fit justify-center flex-col items-center flex py-2 rounded-md hover:cursor-pointer hover:shadow-md hover:scale-105 bg-blue-500 text-white transition duration-500'>
+          <div className='px-4 w-full md:w-fit justify-center flex-col items-center flex py-2 rounded-md hover:cursor-pointer hover:shadow-md hover:scale-105 bg-[#0092BC] text-white transition duration-500'>
             <div className="flex items-center gap-2">
               <Briefcase size={32} />
               <h5 className="text-xl font-bold">Prácticas</h5>
             </div>
-            <p className="text-sm text-center">Postula a tu práctica ideal</p>
+            <p className="text-sm text-center">Descubre oportunidades de prácticas profesionales que impulsarán tu carrera. Conecta con empresas que buscan el talento fresco de estudiantes como tú.</p>
           </div>
         </a>
 
         <a href="https://roomies.tssw.info" rel="noreferrer" className="w-full md:w-fit">
-          <div className='px-4 w-full md:w-fit justify-center flex-col items-center flex py-2 rounded-md hover:cursor-pointer hover:shadow-md hover:scale-105 bg-yellow-500 text-white transition duration-500'>
+          <div className='px-4 w-full md:w-fit justify-center flex-col items-center flex py-2 rounded-md hover:cursor-pointer hover:shadow-md hover:scale-105 bg-[#0092BC] text-white transition duration-500'>
             <div className="flex items-center gap-2">
               <Home size={32} />
               <h5 className="text-xl font-bold">Roomies</h5>
             </div>
-            <p className="text-sm text-center">Encuentra tu compañero perfecto</p>
+            <p className="text-sm text-center">Encuentra el compañero de cuarto perfecto para tu experiencia universitaria. Conecta con estudiantes que comparten tus intereses y estilo de vida</p>
           </div>
         </a>
 
         <a href="https://descuentos.tssw.info" rel="noreferrer" className="w-full md:w-fit">
-          <div className='px-4 w-full md:w-fit justify-center flex-col items-center flex py-2 rounded-md hover:cursor-pointer hover:shadow-md hover:scale-105 bg-orange-500 text-white transition duration-500'>
+          <div className='px-4 w-full md:w-fit justify-center flex-col items-center flex py-2 rounded-md hover:cursor-pointer hover:shadow-md hover:scale-105 bg-[#0092BC] text-white transition duration-500'>
             <div className="flex items-center gap-2">
               <Tag size={32} />
               <h5 className="text-xl font-bold">Descuentos</h5>
             </div>
-            <p className="text-sm text-center">Descubre ofertas exclusivas</p>
+            <p className="text-sm text-center">Ahorra en tus comidas favoritas con descuentos eclusivos para estudiantes. Encuentra ofertas en restaurantes y cafeterías cerca de tu campus</p>
           </div>
         </a>
       </div>

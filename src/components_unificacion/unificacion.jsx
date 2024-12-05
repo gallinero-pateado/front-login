@@ -24,12 +24,12 @@ const MainPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gray-800 text-white py-4 px-6 flex items-center gap-6 shadow-md">
+      <header className="bg-[#0092BC] text-white py-4 px-6 flex items-center gap-6 shadow-md">
         <img src="logo-utem.png" alt="Logo de Ulink" className="h-20" />
 
         <div className="flex flex-col">
-          <h1 className="text-4xl font-extrabold tracking-tight">ULINK</h1>
-          <p className="text-sm text-gray-300 max-w-md">
+          <h1 className="text-4xl md:text-5xl font-bold italic">ULINK</h1>
+          <p className="text-sm text-white max-w-md">
             La plataforma ideal de nuestra universidad por y para estudiantes para facilitar tu vida
           </p>
         </div>
