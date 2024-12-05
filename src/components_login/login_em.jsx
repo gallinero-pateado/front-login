@@ -101,9 +101,10 @@ const LoginEm = () => {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 }
             });
+
+            console.log(loginResponse.data);
 
             const { token, uid } = loginResponse.data;
 
