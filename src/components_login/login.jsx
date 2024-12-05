@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 
 const API_URL = "https://api-ulink.tssw.info";
 
-/*
 const DICCIONARIO_ERRORES = {
   auth: {
     invalid_credentials: "Correo electrónico o contraseña incorrectos",
@@ -36,7 +35,7 @@ const obtenerMensajeError = (categoria, codigoError, errorBackend = null) => {
   }
 
   return DICCIONARIO_ERRORES["default"];
-};*/
+};
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -114,7 +113,7 @@ const Login = () => {
     setError("");
     setLoading(true);
 
-    const apiurl = `${API_URL}/login-user`;
+    const apiurl = `${API_URL}/login/user`;
 
     try {
       // 1. Login Request - matches backend LoginHandler endpoint
@@ -127,13 +126,10 @@ const Login = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
           withCredentials: true, // Incluir credenciales en la solicitud
         }
       );
-
-      console.log("loginResponse:", loginResponse); // Agregar log para depuración
 
       const { token, uid } = loginResponse.data;
 
@@ -188,22 +184,30 @@ const Login = () => {
       if (error.response) {
         switch (error.response.status) {
           case 401:
-            errorMessage = "Correo electrónico o contraseña incorrectos";
+            errorMessage = obtenerMensajeError(
+              "auth",
+              "invalid_credentials",
+              error.response.data.error
+            );
             break;
           case 404:
-            errorMessage = "No se encontró una cuenta con este correo";
-            break;
-          case 502:
-            errorMessage = "Problema interno del servidor. Intente más tarde";
+            errorMessage = obtenerMensajeError(
+              "auth",
+              "user_not_found",
+              error.response.data.error
+            );
             break;
           default:
-            errorMessage =
-              "Error de conexión. Verifique su conexión a internet";
+            errorMessage = obtenerMensajeError(
+              "network",
+              "server_error",
+              error.response.data.error
+            );
         }
       } else if (error.request) {
-        errorMessage = "Error de conexión. Verifique su conexión a internet";
+        errorMessage = obtenerMensajeError("network", "connection_error");
       } else {
-        errorMessage = "Ha ocurrido un error inesperado. Intente nuevamente";
+        errorMessage = obtenerMensajeError("default");
       }
 
       setError(errorMessage);
